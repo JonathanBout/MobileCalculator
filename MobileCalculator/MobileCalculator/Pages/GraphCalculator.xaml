@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileCalculator.Pages.GraphCalculator"
+             xmlns:chartViews="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             xmlns:charts="clr-namespace:Microcharts;assembly=Microcharts">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="This page is under construction. Please be careful!" HorizontalTextAlignment="Center" FontSize="Caption" TextColor="Red"/>
+            <StackLayout x:Name="ViewStack" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="7">
+                <chartViews:ChartView x:Name="Graph" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+                <Grid VerticalOptions="Start" HorizontalOptions="FillAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="AUTO"/>
+                        <RowDefinition Height="AUTO"/>
+                        <RowDefinition Height="AUTO"/>
+                        <RowDefinition Height="AUTO"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="AUTO"/>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Text="Y1:" Grid.Column="0" Grid.Row="0" VerticalTextAlignment="Center" IsEnabled="False"/>
+                    <Label Text="Y2:" Grid.Column="0" Grid.Row="1" VerticalTextAlignment="Center" IsEnabled="False"/>
+                    <Label Text="Y3:" Grid.Column="0" Grid.Row="2" VerticalTextAlignment="Center" IsEnabled="False"/>
+                    <Label Text="Y4:" Grid.Column="0" Grid.Row="3" VerticalTextAlignment="Center" IsEnabled="False"/>
+                    <Label Text="Y5:" Grid.Column="0" Grid.Row="4" VerticalTextAlignment="Center" IsEnabled="False"/>
+                    <Entry Grid.Column="1" Grid.Row="0" x:Name="Y1Input" IsEnabled="False"/>
+                    <Entry Grid.Column="1" Grid.Row="1" x:Name="Y2Input" IsEnabled="False"/>
+                    <Entry Grid.Column="1" Grid.Row="2" x:Name="Y3Input" IsEnabled="False"/>
+                    <Entry Grid.Column="1" Grid.Row="3" x:Name="Y4Input" IsEnabled="False"/>
+                    <Entry Grid.Column="1" Grid.Row="4" x:Name="Y5Input" IsEnabled="False"/>
+                    <Button Text="Calculate" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Clicked="Button_Clicked" IsEnabled="False"/>
+                </Grid>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
