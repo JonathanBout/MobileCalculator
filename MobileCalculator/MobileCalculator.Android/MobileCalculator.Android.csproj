@@ -100,9 +100,9 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MobileCalculator\Calculator.csproj">
-      <Project>{578CDCB0-82D6-4A00-8883-2DC0C27A1D2B}</Project>
-      <Name>Calculator</Name>
+    <ProjectReference Include="..\MobileCalculator\MobileCalculator.csproj">
+      <Project>{234F44B9-9BC0-4E4A-9576-AD3D14B21894}</Project>
+      <Name>MobileCalculator</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

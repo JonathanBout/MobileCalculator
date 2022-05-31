@@ -1,5 +1,4 @@
-﻿using Calculator.Pages;
-using Microcharts;
+﻿using Microcharts;
 using System;
 using System.Collections.Generic;
 using Xamarin.Essentials;
@@ -68,6 +67,10 @@ namespace MobileCalculator.Pages
                     });
                 }
                 SetChart(series.ToArray());
+            }
+            catch (ExtraMath.Exception ex)
+            {
+                DisplayAlert("Error", $"Error: {ex.Message} (Error Type: {ex.BaseExceptionType.Name})\nAt Expression {ex.Expression}", "Ok");
             }catch (Exception ex)
             {
                 DisplayAlert("Error", $"Error: {ex.Message} (Error Type: {ex.GetType()})", "Ok");
