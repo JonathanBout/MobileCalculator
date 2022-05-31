@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace MobileCalculator.Pages
+namespace Calculator.Pages
 {
     public static class Ext
     {

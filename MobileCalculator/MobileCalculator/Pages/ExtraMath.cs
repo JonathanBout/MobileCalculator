@@ -5,7 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 
-namespace MobileCalculator.Pages
+namespace Calculator.Pages
 {
     public static class ExtraMath
     {
@@ -20,40 +20,33 @@ namespace MobileCalculator.Pages
             double x = A / n;
             while (Math.Abs(A - Math.Pow(x, N)) > epsilon)
             {
-                x = (1.0d / n) * ((n - 1) * x + (A / (Math.Pow(x, N - 1))));
+                x = 1.0d / n * ((n - 1) * x + A / Math.Pow(x, N - 1));
             }
             return x;
         }
 
-        [Obsolete]
+        [Obsolete("Use EvaluateAdvanced instead.")]
         public static string Evaluate(string formula, string? ans = null, string? x = null)
         {
             DataTable table = new DataTable();
             var opsList = new List<char>() { '.', ',' };
             opsList.AddRange(ops);
-            string expression = ReplaceMathSymbol(
-                ReplaceMathSymbol(
-                    formula.TrimEnd(opsList.ToArray())
-                    .TrimStart(opsList.ToArray()), "(", "(", afterSymbol: false), ")", ")",
+            string expression = formula.TrimEnd(opsList.ToArray())
+                    .TrimStart(opsList.ToArray()).ReplaceMathSymbol(
+"(", "(", afterSymbol: false).ReplaceMathSymbol(
+")", ")",
                 beforeSymbol: false);
 
             expression = expression.Replace(")(", ")*(");
             if (!(x is null))
             {
-                expression = ReplaceMathSymbol(expression, "X", x);
+                expression = expression.ReplaceMathSymbol("X", x);
             }
             if (!(ans is null))
             {
-                expression = ReplaceMathSymbol(expression, "ANS", ans);
+                expression = expression.ReplaceMathSymbol("ANS", ans);
             }
-
-            try
-            {
-                return Convert.ToString(table.Compute(expression, ""));
-            }catch (System.Exception ex)
-            {
-                throw new Exception(ex.Message, formula, ex.GetType());
-            }
+            return Convert.ToString(table.Compute(expression, ""));
         }
 
         public static double EvaluateAdvanced(string expression, IDictionary<string, double> vars, params (string, string)[]? replaceValues)
@@ -65,16 +58,16 @@ namespace MobileCalculator.Pages
                     expression = expression.Replace(replaceValue.Item1, replaceValue.Item2);
                 }
             }
-            if (expression.Count(x => x == '(') >  expression.Count(x=> x == ')'))
+            if (expression.Count(x => x == '(') > expression.Count(x => x == ')'))
             {
                 expression += ")";
             }
             var opsList = new List<char>() { '.', ',' };
             opsList.AddRange(ops);
-            string formula = ReplaceMathSymbol(
-                ReplaceMathSymbol(
-                    expression.TrimEnd(opsList.ToArray())
-                    .TrimStart(opsList.ToArray()), "(", "(", afterSymbol: false), ")", ")",
+            string formula = expression.TrimEnd(opsList.ToArray())
+                    .TrimStart(opsList.ToArray()).ReplaceMathSymbol(
+"(", "(", afterSymbol: false).ReplaceMathSymbol(
+")", ")",
                 beforeSymbol: false);
             formula = formula.Replace(")(", ")*(").ReplaceMathSymbol("√*(", "sqrt(", false, false);
             CalculationEngine engine = new CalculationEngine();
@@ -107,21 +100,10 @@ namespace MobileCalculator.Pages
                     }
                 }
                 return string.Join(symbol, parts).Replace(symbol, replaceValue);
-            } catch (Exception)
+            }
+            catch (Exception)
             {
                 throw;
-            }
-        }
-
-        [DebuggerDisplay("{Message | At expression <{Expression}>}")]
-        public class Exception : System.Exception
-        {
-            public string Expression;
-            public Type BaseExceptionType;
-            public Exception(string message, string expression, Type baseExceptionType) : base (message)
-            {
-                Expression = expression;
-                BaseExceptionType = baseExceptionType;
             }
         }
     }
