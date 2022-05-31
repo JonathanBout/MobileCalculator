@@ -10,6 +10,8 @@ namespace MobileCalculator.Pages
     public static class ExtraMath
     {
         static readonly char[] ops = { '*', '/', '+', '-', '%' };
+        public const double PHI = 1.61803398874989484820458683436;
+        public static readonly IReadOnlyDictionary<string, double> constants = new Dictionary<string, double>() { { "PHI", PHI } };
         public static double Root(double A, int N = 2)
         {
             if (N == 2) { return Math.Sqrt(A); }
@@ -23,6 +25,7 @@ namespace MobileCalculator.Pages
             return x;
         }
 
+        [Obsolete]
         public static string Evaluate(string formula, string? ans = null, string? x = null)
         {
             DataTable table = new DataTable();
@@ -53,8 +56,19 @@ namespace MobileCalculator.Pages
             }
         }
 
-        public static double EvaluateAdvanced(string expression, IDictionary<string, double> vars)
+        public static double EvaluateAdvanced(string expression, IDictionary<string, double> vars, params (string, string)[]? replaceValues)
         {
+            if (replaceValues != null)
+            {
+                foreach (var replaceValue in replaceValues)
+                {
+                    expression = expression.Replace(replaceValue.Item1, replaceValue.Item2);
+                }
+            }
+            if (expression.Count(x => x == '(') >  expression.Count(x=> x == ')'))
+            {
+                expression += ")";
+            }
             var opsList = new List<char>() { '.', ',' };
             opsList.AddRange(ops);
             string formula = ReplaceMathSymbol(
@@ -62,8 +76,12 @@ namespace MobileCalculator.Pages
                     expression.TrimEnd(opsList.ToArray())
                     .TrimStart(opsList.ToArray()), "(", "(", afterSymbol: false), ")", ")",
                 beforeSymbol: false);
-            formula = formula.Replace(")(", ")*(");
+            formula = formula.Replace(")(", ")*(").ReplaceMathSymbol("√*(", "sqrt(", false, false);
             CalculationEngine engine = new CalculationEngine();
+            foreach (var constant in constants)
+            {
+                engine.AddConstant(constant.Key, constant.Value);
+            }
             return engine.Calculate(formula, vars);
         }
 

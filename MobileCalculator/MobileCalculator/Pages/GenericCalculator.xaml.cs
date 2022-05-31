@@ -11,15 +11,24 @@ namespace MobileCalculator.Pages
         readonly Color defaultCol;
         bool isClear = true;
         bool isAnswer = false;
-        double previousCalculation = 0;
-        double currentCalculation = 0;
+        double previousResult = 0;
+        double currentResult { get; set; } = 0;
         private List<string> typedExpression = new List<string>();
+        public string Expression
+        {
+            get
+            {
+                return string.Join("", typedExpression);
+            } 
+        }
+        public string LastExpression { get; private set; } = "0";
         public GenericCalculator()
         {
             InitializeComponent();
             defaultCol = FormulaField.TextColor;
             DeviceDisplay.MainDisplayInfoChanged += DeviceDisplay_MainDisplayInfoChanged;
             SetViewStackOrientation(DeviceDisplay.MainDisplayInfo.Orientation);
+            Clear();
         }
 
         private void DeviceDisplay_MainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
@@ -35,50 +44,55 @@ namespace MobileCalculator.Pages
         private void Button_Clicked(object sender, EventArgs e)
         {
             Button button = (Button)sender;
+            GetInput(button);
+        }
+
+        public void GetInput(Button sender)
+        {
             FormulaField.TextColor = defaultCol;
-            if (isClear)
+            string expression = Expression;
+            if (isAnswer || isClear)
             {
                 Clear(false);
-                isClear = false;
+                /*isAnswer = !(*/
+                isClear = true;//);
+                PreviousValueField.Text = currentResult.ToString();
             }
-            if (isAnswer)
-            {
-                isAnswer = false;
-                if (button.Text == "=")
-                {
-                    Clear(false);
-                }
-            }
-            switch (button.Text)
+            switch (sender.Text)
             {
                 case "C":
+                    isAnswer = false;
                     Clear();
                     isClear = true;
                     break;
                 case "DEL":
-                    if (FormulaField.Text.Length > 0 & !isClear)
-                        RemoveLastText();
+                    isAnswer = false;
+                    RemoveLastText();
                     break;
                 case "=":
+                    if (isAnswer)
+                    {
+                        expression = LastExpression;
+                    }
+                    previousResult = currentResult;
+                    PreviousValueField.Text = previousResult.ToString();
                     try
                     {
-                        //FormulaField.Text = ExtraMath.Evaluate(FormulaField.Text, PreviousValueField.Text);
-                        previousCalculation = currentCalculation;
-                        PreviousValueField.Text = previousCalculation.ToString();
-                        currentCalculation = ExtraMath.EvaluateAdvanced(string.Join("", typedExpression), new Dictionary<string, double> { { "ANS", previousCalculation} });
+                        currentResult = ExtraMath.EvaluateAdvanced(expression, new Dictionary<string, double>() { { "ANS", previousResult} }, ("π", "PI"), ("φ", "PHI"));
                         Clear(false);
-                        AddText(currentCalculation.ToString());
-                        isAnswer = true;
+                        AddText(currentResult);
                     }catch (Exception ex)
                     {
-                        FormulaField.TextColor = Color.Red;
-                        Clear(false);
-                        AddText(ex.Message);
-                        isAnswer = true;
+                        DisplayAlert("Error", $"Operation failed: {ex.Message}", "Ok");
+                        return;
                     }
+                    isAnswer = true;
+                    LastExpression = expression;
                     break;
                 default:
-                    AddText(button.Text);
+                    isAnswer = false;
+                    isClear = false;
+                    AddText(sender.Text);
                     break;
             }
         }
@@ -89,6 +103,11 @@ namespace MobileCalculator.Pages
             Update();
         }
 
+        public void AddText(object text)
+        {
+            AddText(text.ToString());
+        }
+
         void Update()
         {
             FormulaField.Text = string.Join("", typedExpression);
@@ -96,7 +115,12 @@ namespace MobileCalculator.Pages
 
         public void RemoveLastText()
         {
+            if (typedExpression is null || typedExpression.Count < 1) { typedExpression = new List<string>() { "0" }; Update();  return; }
             typedExpression = typedExpression.ToArray()[0..^1].ToList();
+            if (typedExpression.Count < 1)
+            {
+                AddText("0");
+            }
             Update();
         }
 

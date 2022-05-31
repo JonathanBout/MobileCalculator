@@ -41,12 +41,16 @@
                     <Button Text="*"    Grid.Row="2" Grid.Column="0" Clicked="Button_Clicked"/>
                     <Button Text="/"    Grid.Row="1" Grid.Column="1" Clicked="Button_Clicked"/>
                     <Button Text="%"    Grid.Row="2" Grid.Column="1" Clicked="Button_Clicked"/>
+                    <Button Text="."    Grid.Row="0" Grid.Column="1" Clicked="Button_Clicked"/>
+                    <Button Text="^"    Grid.Row="0" Grid.Column="2" Clicked="Button_Clicked"/>
+                    <Button Text="√("   Grid.Row="1" Grid.Column="2" Clicked="Button_Clicked"/>
+                    <Button Text="π"    Grid.Row="2" Grid.Column="2" Clicked="Button_Clicked"/>
+                    <Button Text="φ"    Grid.Row="3" Grid.Column="2" Clicked="Button_Clicked"/>
                     <!--#endregion-->
                     <!--#region Other Buttons-->
-                    <Button Text="ANS"  Grid.Row="0" Grid.Column="2" Clicked="Button_Clicked"/>
-                    <Button Text="."    Grid.Row="0" Grid.Column="1" Clicked="Button_Clicked"/>
-                    <Button Text="DEL"  Grid.Row="1" Grid.Column="2" Clicked="Button_Clicked" BackgroundColor="#550000"/>
-                    <Button Text="C"    Grid.Row="2" Grid.Column="2" Clicked="Button_Clicked" BackgroundColor="#550000" Grid.RowSpan="2"/>
+                    <Button Text="ANS"  Grid.Row="0" Grid.Column="3" Clicked="Button_Clicked"/>
+                    <Button Text="DEL"  Grid.Row="1" Grid.Column="3" Clicked="Button_Clicked" BackgroundColor="#500"/>
+                    <Button Text="C"    Grid.Row="2" Grid.Column="3" Clicked="Button_Clicked" BackgroundColor="#500" Grid.RowSpan="2"/>
                     <Button Text="="    Grid.Row="3" Grid.Column="0" Clicked="Button_Clicked" FontAttributes="Bold" FontSize="Medium" BackgroundColor="#666" Grid.ColumnSpan="2"/>
                 <!--#endregion-->
                 </Grid>
