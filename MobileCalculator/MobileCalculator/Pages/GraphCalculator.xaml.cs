@@ -1,6 +1,8 @@
 ﻿using Microcharts;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -38,43 +40,7 @@ namespace MobileCalculator.Pages
 
         private void Button_Clicked(object sender, EventArgs e)
         {
-            try
-            {
-                decimal[][] values = new decimal[4][];
-                //Fill the graph
-                for (int i = minX; i < maxX; i++)
-                {
-                    values[0][i] = decimal.Parse(ExtraMath.Evaluate(Y1Input.Text, x: i.ToString()));
-                    values[1][i] = decimal.Parse(ExtraMath.Evaluate(Y2Input.Text, x: i.ToString()));
-                    values[2][i] = decimal.Parse(ExtraMath.Evaluate(Y3Input.Text, x: i.ToString()));
-                    values[3][i] = decimal.Parse(ExtraMath.Evaluate(Y4Input.Text, x: i.ToString()));
-
-                }
-                List<ChartSerie> series = new List<ChartSerie>();
-                foreach (decimal[] values2 in values)
-                {
-                    List<ChartEntry> entries = new List<ChartEntry>();
-                    foreach (decimal value in values2)
-                    {
-                        entries.Add(new ChartEntry((float)value)
-                        {
-                            Color = SkiaSharp.SKColor.Parse("#FFF"),
-                        });
-                    }
-                    series.Add(new ChartSerie()
-                    {
-                        Entries = entries
-                    });
-                }
-                SetChart(series.ToArray());
-            }
-            catch (ExtraMath.Exception ex)
-            {
-                DisplayAlert("Error", $"Error: {ex.Message} (Error Type: {ex.BaseExceptionType.Name})\nAt Expression {ex.Expression}", "Ok");
-            }catch (Exception ex)
-            {
-                DisplayAlert("Error", $"Error: {ex.Message} (Error Type: {ex.GetType()})", "Ok");
-            }
+            Evaluate();
         }
 
         private void DeviceDisplay_MainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
@@ -85,6 +51,29 @@ namespace MobileCalculator.Pages
         void SetViewStackOrientation(DisplayOrientation orientation)
         {
             ViewStack.Orientation = orientation == DisplayOrientation.Portrait ? StackOrientation.Vertical : StackOrientation.Horizontal;
+        }
+
+        void Evaluate()
+        {
+            List<(Entry, Graph)> formulaInputs = new List<(Entry, Graph)>()
+            {
+                (Y1Input, new Graph()), (Y2Input, new Graph()), (Y3Input, new Graph()), (Y4Input, new Graph()), (Y5Input, new Graph()),
+            };
+            formulaInputs = formulaInputs.FindAll(x => !string.IsNullOrEmpty(x.Item1.Text)).ToList();
+            for (double x = minX; x < maxX; x+= .2d)
+            {
+                Dictionary<string, double> vars = new Dictionary<string, double>() { { "X", x } };
+                foreach ((Entry, Graph) formulaInput in formulaInputs)
+                {
+                    if (!string.IsNullOrEmpty(formulaInput.Item1.Text))
+                    {
+                        double result = ExtraMath.EvaluateAdvanced(formulaInput.Item1.Text, vars);
+                        formulaInput.Item2.AddPoint(result);
+                    }
+                }
+            }
+            Chart chart = new Chart(formulaInputs.Select(x => x.Item2));
+            SetChart(chart.ToChartSerieArray());
         }
 
         protected override void OnAppearing()
@@ -118,13 +107,87 @@ namespace MobileCalculator.Pages
                     Color=SkiaSharp.SKColor.Parse("#FFF"),
                 }
             };
-            SetChart(new ChartSerie() { Entries = entries, Color=SkiaSharp.SKColor.Parse("#FFF") });
+            SetChart(new ChartSerie() { Entries = entries, Color = SkiaSharp.SKColor.Parse("#FFF") });
         }
 
         public void SetChart(params ChartSerie[] ChartEntries)
         {
+            var random = new Random();
+            foreach(ChartSerie serie in ChartEntries)
+            {
+                var color = string.Format("#{0:X6}", random.Next(16777216));
+                serie.Color = SkiaSharp.SKColor.Parse(color);
+            }
             Chart.Series = ChartEntries;
             Graph.Chart = Chart;
+        }
+    }
+
+    public class Chart : IEnumerable<Graph>
+    {
+        List<Graph> graphs = new List<Graph>();
+
+        public Chart(IEnumerable<Graph> graphs)
+        {
+            this.graphs = graphs.ToList();
+        }
+
+        public ChartSerie[] ToChartSerieArray()
+        {
+            return graphs.Select(x => x.ToChartSerie()).ToArray();
+        }
+
+        public void Add(Graph graph)
+        {
+            graphs.Add(graph);
+        }
+        public IEnumerator<Graph> GetEnumerator()
+        {
+            return graphs.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+
+    public class Graph : IEnumerable<double>
+    {
+        List<double> points = new List<double>();
+
+        public Graph(IEnumerable<double> points)
+        {
+            this.points = points.ToList();
+        }
+
+        public Graph() { }
+
+        public void AddPoint(double value)
+        {
+            points.Add(value);
+        }
+
+        public IEnumerator<double> GetEnumerator()
+        {
+            return points.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public ChartSerie ToChartSerie()
+        {
+            ChartSerie serie = new ChartSerie();
+            List<ChartEntry> entries = new List<ChartEntry>();
+            foreach (double point in points)
+            {
+                entries.Add(new ChartEntry((float)point));
+            }
+            serie.Entries = entries;
+            return serie;
         }
     }
 }

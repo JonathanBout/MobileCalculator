@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MobileCalculator.Pages.GenericCalculator">
     <ContentPage.Content>
-        <StackLayout HorizontalOptions="FillAndExpand">
+        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Fill">
             <Label Text="0" x:Name="FormulaField" FontSize="Title" Padding="5" HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>
             <Label Text="0" x:Name="PreviousValueField" FontSize="Body" Padding="0,0,5,0" Margin="0,-15,0,0" HorizontalTextAlignment="End" VerticalTextAlignment="Center" TextColor="Gray"/>
-            <StackLayout x:Name="KeyboardStack" Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="5">
-                <Grid HorizontalOptions="CenterAndExpand" WidthRequest="1000">
+            <StackLayout x:Name="KeyboardStack" Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="5,5,5,-5" VerticalOptions="Fill">
+                <Grid HorizontalOptions="CenterAndExpand" WidthRequest="1000" VerticalOptions="FillAndExpand">
                     <!--#region numbers-->
                     <Button Text="1"    Grid.Row="0" Grid.Column="0" Clicked="Button_Clicked" BackgroundColor="#606060"/>
                     <Button Text="2"    Grid.Row="0" Grid.Column="1" Clicked="Button_Clicked" BackgroundColor="#606060"/>
@@ -23,8 +23,8 @@
                     <Button Text=")"    Grid.Row="3" Grid.Column="2" Clicked="Button_Clicked"/>
                     <Button Text="("    Grid.Row="3" Grid.Column="0" Clicked="Button_Clicked"/>
                 </Grid>
-                <BoxView HeightRequest=".1" HorizontalOptions="Fill" Margin="0,5,0,5"/>
-                <Grid HorizontalOptions="CenterAndExpand"  WidthRequest="1000">
+                <BoxView x:Name="Spacer" HeightRequest=".1" HorizontalOptions="Fill" Margin="0,5,0,5"/>
+                <Grid HorizontalOptions="CenterAndExpand"  WidthRequest="1000" VerticalOptions="Fill">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -35,7 +35,7 @@
                         <RowDefinition Height="AUTO"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                <!--#region Operators-->
+                    <!--#region Operators-->
                     <Button Text="+"    Grid.Row="0" Grid.Column="0" Clicked="Button_Clicked"/>
                     <Button Text="-"    Grid.Row="1" Grid.Column="0" Clicked="Button_Clicked"/>
                     <Button Text="*"    Grid.Row="2" Grid.Column="0" Clicked="Button_Clicked"/>
@@ -44,17 +44,21 @@
                     <Button Text="."    Grid.Row="0" Grid.Column="1" Clicked="Button_Clicked"/>
                     <Button Text="^"    Grid.Row="0" Grid.Column="2" Clicked="Button_Clicked"/>
                     <Button Text="√("   Grid.Row="1" Grid.Column="2" Clicked="Button_Clicked"/>
-                    <Button Text="π"    Grid.Row="2" Grid.Column="2" Clicked="Button_Clicked"/>
-                    <Button Text="φ"    Grid.Row="3" Grid.Column="2" Clicked="Button_Clicked"/>
+                    <Button Text="π"    Grid.Row="4" Grid.Column="1" Clicked="Button_Clicked"/>
+                    <Button Text="φ"    Grid.Row="4" Grid.Column="0" Clicked="Button_Clicked"/>
+                    <Button Text="sin(" Grid.Row="3" Grid.Column="0" Clicked="Button_Clicked"/>
+                    <Button Text="cos(" Grid.Row="3" Grid.Column="1" Clicked="Button_Clicked"/>
+                    <Button Text="tan(" Grid.Row="3" Grid.Column="2" Clicked="Button_Clicked"/>
                     <!--#endregion-->
                     <!--#region Other Buttons-->
                     <Button Text="ANS"  Grid.Row="0" Grid.Column="3" Clicked="Button_Clicked"/>
                     <Button Text="DEL"  Grid.Row="1" Grid.Column="3" Clicked="Button_Clicked" BackgroundColor="#500"/>
                     <Button Text="C"    Grid.Row="2" Grid.Column="3" Clicked="Button_Clicked" BackgroundColor="#500" Grid.RowSpan="2"/>
-                    <Button Text="="    Grid.Row="3" Grid.Column="0" Clicked="Button_Clicked" FontAttributes="Bold" FontSize="Medium" BackgroundColor="#666" Grid.ColumnSpan="2"/>
-                <!--#endregion-->
+                    <Button Text="="    Grid.Row="4" Grid.Column="2" Clicked="Button_Clicked" FontAttributes="Bold" FontSize="Medium" BackgroundColor="#666" Grid.ColumnSpan="2"/>
+                    <!--#endregion-->
                 </Grid>
             </StackLayout>
+            <Label x:Name="InfoLabel" Text="Graphing Calculator v0.1 (DEBUG)" HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontSize="Micro"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

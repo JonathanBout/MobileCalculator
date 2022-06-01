@@ -31,6 +31,15 @@ namespace MobileCalculator.Pages
             Clear();
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            InfoLabel.Text = $"{AppInfo.Name} v{AppInfo.Version}";
+#if DEBUG
+            InfoLabel.Text += " [DEBUG]";
+#endif
+        }
+
         private void DeviceDisplay_MainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
         {
             SetViewStackOrientation(e.DisplayInfo.Orientation);
@@ -39,6 +48,7 @@ namespace MobileCalculator.Pages
         void SetViewStackOrientation(DisplayOrientation orientation)
         {
             KeyboardStack.Orientation = orientation == DisplayOrientation.Portrait ? StackOrientation.Vertical : StackOrientation.Horizontal;
+            Spacer.IsVisible = orientation == DisplayOrientation.Portrait;
         }
 
         private void Button_Clicked(object sender, EventArgs e)

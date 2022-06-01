@@ -47,13 +47,7 @@ namespace MobileCalculator.Pages
                 expression = ReplaceMathSymbol(expression, "ANS", ans);
             }
 
-            try
-            {
-                return Convert.ToString(table.Compute(expression, ""));
-            }catch (System.Exception ex)
-            {
-                throw new Exception(ex.Message, formula, ex.GetType());
-            }
+            return Convert.ToString(table.Compute(expression, ""));
         }
 
         public static double EvaluateAdvanced(string expression, IDictionary<string, double> vars, params (string, string)[]? replaceValues)
@@ -76,7 +70,10 @@ namespace MobileCalculator.Pages
                     expression.TrimEnd(opsList.ToArray())
                     .TrimStart(opsList.ToArray()), "(", "(", afterSymbol: false), ")", ")",
                 beforeSymbol: false);
-            formula = formula.Replace(")(", ")*(").ReplaceMathSymbol("√*(", "sqrt(", false, false);
+            formula = formula.Replace(")(", ")*(").Replace("√*(", "sqrt(")
+                .Replace("sin*(", "sin(")
+                .Replace("cos*(", "cos(")
+                .Replace("tan*(", "tan(");
             CalculationEngine engine = new CalculationEngine();
             foreach (var constant in constants)
             {
@@ -88,41 +85,24 @@ namespace MobileCalculator.Pages
         public static string ReplaceMathSymbol(this string expression, string symbol, string replaceValue,
             bool beforeSymbol = true, bool afterSymbol = true)
         {
-            try
+            if (!expression.Contains(symbol)) { return expression; }
+            string[] parts = expression.Split(new string[] { symbol }, StringSplitOptions.None);
+            for (int i = 0; i < parts.Length; i++)
             {
-                if (!expression.Contains(symbol)) { return expression; }
-                string[] parts = expression.Split(new string[] { symbol }, StringSplitOptions.None);
-                for (int i = 0; i < parts.Length; i++)
+                string part = parts[i];
+                if (string.IsNullOrEmpty(part.Trim())) { continue; }
+                if (!ops.Any(x => x == part[0]) && i != 0 && afterSymbol && part.First() != '(' && part.First() != ')')
                 {
-                    string part = parts[i];
-                    if (string.IsNullOrEmpty(part.Trim())) { continue; }
-                    if (!ops.Any(x => x == part[0]) && i != 0 && afterSymbol && part.First() != '(' && part.First() != ')')
-                    {
-                        parts[i] = '*' + part;
-                    }
-                    if (!ops.Any(x => x == part[^1]) && i != parts.Length - 1 && beforeSymbol &&
-                        part.Last() != '(' && part.Last() != ')')
-                    {
-                        parts[i] = part + '*';
-                    }
+                    parts[i] = '*' + part;
                 }
-                return string.Join(symbol, parts).Replace(symbol, replaceValue);
-            } catch (Exception)
-            {
-                throw;
+                if (!ops.Any(x => x == part[^1]) && i != parts.Length - 1 && beforeSymbol &&
+                    part.Last() != '(' && part.Last() != ')')
+                {
+                    parts[i] = part + '*';
+                }
             }
-        }
+            return string.Join(symbol, parts).Replace(symbol, replaceValue);
 
-        [DebuggerDisplay("{Message | At expression <{Expression}>}")]
-        public class Exception : System.Exception
-        {
-            public string Expression;
-            public Type BaseExceptionType;
-            public Exception(string message, string expression, Type baseExceptionType) : base (message)
-            {
-                Expression = expression;
-                BaseExceptionType = baseExceptionType;
-            }
         }
     }
 }

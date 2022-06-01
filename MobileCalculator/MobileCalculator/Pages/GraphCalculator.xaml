@@ -21,17 +21,17 @@
                         <ColumnDefinition Width="AUTO"/>
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Label Text="Y1:" Grid.Column="0" Grid.Row="0" VerticalTextAlignment="Center" IsEnabled="False"/>
-                    <Label Text="Y2:" Grid.Column="0" Grid.Row="1" VerticalTextAlignment="Center" IsEnabled="False"/>
-                    <Label Text="Y3:" Grid.Column="0" Grid.Row="2" VerticalTextAlignment="Center" IsEnabled="False"/>
-                    <Label Text="Y4:" Grid.Column="0" Grid.Row="3" VerticalTextAlignment="Center" IsEnabled="False"/>
-                    <Label Text="Y5:" Grid.Column="0" Grid.Row="4" VerticalTextAlignment="Center" IsEnabled="False"/>
-                    <Entry Grid.Column="1" Grid.Row="0" x:Name="Y1Input" IsEnabled="False"/>
-                    <Entry Grid.Column="1" Grid.Row="1" x:Name="Y2Input" IsEnabled="False"/>
-                    <Entry Grid.Column="1" Grid.Row="2" x:Name="Y3Input" IsEnabled="False"/>
-                    <Entry Grid.Column="1" Grid.Row="3" x:Name="Y4Input" IsEnabled="False"/>
-                    <Entry Grid.Column="1" Grid.Row="4" x:Name="Y5Input" IsEnabled="False"/>
-                    <Button Text="Calculate" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Clicked="Button_Clicked" IsEnabled="False"/>
+                    <Label Text="Y1:" Grid.Column="0" Grid.Row="0" VerticalTextAlignment="Center"/>
+                    <Label Text="Y2:" Grid.Column="0" Grid.Row="1" VerticalTextAlignment="Center"/>
+                    <Label Text="Y3:" Grid.Column="0" Grid.Row="2" VerticalTextAlignment="Center"/>
+                    <Label Text="Y4:" Grid.Column="0" Grid.Row="3" VerticalTextAlignment="Center"/>
+                    <Label Text="Y5:" Grid.Column="0" Grid.Row="4" VerticalTextAlignment="Center"/>
+                    <Entry Grid.Column="1" Grid.Row="0" x:Name="Y1Input"/>
+                    <Entry Grid.Column="1" Grid.Row="1" x:Name="Y2Input"/>
+                    <Entry Grid.Column="1" Grid.Row="2" x:Name="Y3Input"/>
+                    <Entry Grid.Column="1" Grid.Row="3" x:Name="Y4Input"/>
+                    <Entry Grid.Column="1" Grid.Row="4" x:Name="Y5Input"/>
+                    <Button Text="Calculate" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Clicked="Button_Clicked"/>
                 </Grid>
             </StackLayout>
         </StackLayout>
