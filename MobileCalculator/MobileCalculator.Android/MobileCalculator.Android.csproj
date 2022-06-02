@@ -64,6 +64,9 @@
     <PackageReference Include="Microcharts.Forms">
       <Version>1.0.0-preview1</Version>
     </PackageReference>
+    <PackageReference Include="OxyPlot.Xamarin.Forms">
+      <Version>1.1.0-unstable0011</Version>
+    </PackageReference>
     <PackageReference Include="SkiaSharp.Views.Forms">
       <Version>2.88.1-preview.1</Version>
     </PackageReference>

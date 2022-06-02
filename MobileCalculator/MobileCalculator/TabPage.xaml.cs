@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MobileCalculator.Pages;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace MobileCalculator
         public TabPage()
         {
             InitializeComponent();
+            //GraphNavigation.ToolbarItems.Add(new ToolbarItem() { Text = "Help", });
+            //GraphNavigation.PushAsync(new GraphCalculator());
         }
     }
 }
