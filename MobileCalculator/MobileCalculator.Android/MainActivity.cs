@@ -18,6 +18,8 @@ namespace MobileCalculator.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             OxyPlot.Xamarin.Forms.Platform.Android.PlotViewRenderer.Init();
             LoadApplication(new App());
+            Window.SetStatusBarColor(Android.Graphics.Color.ParseColor("#455049"));
+            Window.SetNavigationBarColor(Android.Graphics.Color.ParseColor("#455049"));
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {

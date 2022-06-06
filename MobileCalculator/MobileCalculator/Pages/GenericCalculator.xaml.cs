@@ -31,15 +31,6 @@ namespace MobileCalculator.Pages
             Clear();
         }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            InfoLabel.Text = $"{AppInfo.Name} v{AppInfo.Version}";
-#if DEBUG
-            InfoLabel.Text += " [DEBUG]";
-#endif
-        }
-
         private void DeviceDisplay_MainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
         {
             SetViewStackOrientation(e.DisplayInfo.Orientation);
@@ -125,11 +116,17 @@ namespace MobileCalculator.Pages
 
         public void RemoveLastText()
         {
-            if (typedExpression is null || typedExpression.Count < 1) { typedExpression = new List<string>() { "0" }; Update();  return; }
+            if (typedExpression is null || typedExpression.Count < 1)
+            {
+                typedExpression = new List<string>() { "0" };
+                Update();
+                return;
+            }
             typedExpression = typedExpression.ToArray()[0..^1].ToList();
             if (typedExpression.Count < 1)
             {
-                AddText("0");
+                Clear();
+                isClear = true;
             }
             Update();
         }

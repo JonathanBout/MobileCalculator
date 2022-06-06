@@ -4,7 +4,14 @@
              x:Class="MobileCalculator.App">
     <Application.Resources>
         <Style TargetType="Button">
+            <Setter Property="CornerRadius" Value="10"/>
             <Setter Property="BorderWidth" Value="1"/>
+            <Setter Property="BackgroundColor" Value="#606060"/>
+        </Style>
+        <Style TargetType="TabbedPage" ApplyToDerivedTypes="True">
+            <Setter Property="BarBackgroundColor" Value="#455049"/>
+            <Setter Property="SelectedTabColor" Value="White"/>
+            <Setter Property="UnselectedTabColor" Value="#333344"/>
         </Style>
     </Application.Resources>
 </Application>

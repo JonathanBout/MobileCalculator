@@ -3,7 +3,45 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MobileCalculator.TabPage"
             xmlns:local="clr-namespace:MobileCalculator.Pages"
-            BackgroundColor="#333333">
-    <local:GenericCalculator Title="Generic"/>
-    <local:GraphCalculator Title="Graphing"/>
+            BackgroundColor="#333333" >
+    <local:GenericCalculator IconImageSource="drawable/Calculator.png"/>
+    <local:GraphCalculator IconImageSource="drawable/Graph.png"/>
+    <local:GraphSettings x:Name="CalculatorSettings" IconImageSource="drawable/GraphSettings.png"/>
+    <ContentPage IconImageSource="drawable/info.png">
+        <ContentPage.Resources>
+            <Style TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Start"/>
+            </Style>
+        </ContentPage.Resources>
+        <StackLayout Orientation="Vertical" Padding="5">
+            <Label x:Name="InfoLabel" Text="Graphing Calculator v0.1 (DEBUG)" HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontSize="Micro"/>
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Built by Jonathan Bout with Xamarin.Forms ("/>
+                        <Span Text=" xamarin.com"  TextDecorations="Underline" TextColor="#5555FF">
+                            <Span.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                            </Span.GestureRecognizers>
+                        </Span>
+                        <Span Text=")"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <FormattedString.Spans>
+                            <Span Text="Tab Icons: "/>
+                            <Span Text=" flaticon.com" TextDecorations="Underline" TextColor="#5555FF">
+                                <Span.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                                </Span.GestureRecognizers>
+                            </Span>
+                        </FormattedString.Spans>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+        </StackLayout>
+    </ContentPage>
 </TabbedPage>

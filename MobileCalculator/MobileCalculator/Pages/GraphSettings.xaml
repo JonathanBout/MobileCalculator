@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileCalculator.Pages.GraphSettings">
+    <ContentPage.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="Medium"/>
+            <Setter Property="VerticalTextAlignment" Value="Center"/>
+            <Setter Property="HorizontalTextAlignment" Value="End"/>
+        </Style>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid Padding="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="AUTO"/>
+                <ColumnDefinition Width="AUTO"/>
+                <ColumnDefinition Width="AUTO"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="AUTO"/>
+                <RowDefinition Height="AUTO"/>
+                <RowDefinition Height="AUTO"/>
+                <RowDefinition Height="AUTO"/>
+                <RowDefinition Height="AUTO"/>
+            </Grid.RowDefinitions>
+            <Label Text="Low X:" Grid.Column="0" Grid.Row="0" VerticalTextAlignment="Center"/>
+            <Label Text="5" x:Name="LowXLabel" Grid.Column="1" Grid.Row="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+            <Stepper x:Name="MinX" Grid.Column="2" Grid.Row="0" ValueChanged="MinX_Completed" Increment="1" Minimum="-1000000" Maximum="1000000"/>
+            
+            <Label Text="High X:" Grid.Column="0" Grid.Row="1" VerticalTextAlignment="Center"/>
+            <Label Text="5" x:Name= "HighXLabel" Grid.Column="1" Grid.Row="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+            <Stepper x:Name="MaxX" Grid.Column="2" Grid.Row="1" ValueChanged="MaxX_Completed" Increment="1" Minimum="-1000000" Maximum="1000000"/>
+
+            <Label Text="Low Y:" Grid.Column="0" Grid.Row="2" VerticalTextAlignment="Center"/>
+            <Label Text="5" x:Name="LowYLabel" Grid.Column="1" Grid.Row="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+            <Stepper x:Name="MinY" Grid.Column="2" Grid.Row="2" ValueChanged="MinY_Completed" Increment="1" Minimum="-1000000" Maximum="1000000"/>
+            
+            <Label Text="High Y:" Grid.Column="0" Grid.Row="3" VerticalTextAlignment="Center"/>
+            <Label Text="5" x:Name="HighYLabel" Grid.Column="1" Grid.Row="3" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+            <Stepper x:Name="MaxY" Grid.Column="2" Grid.Row="3" ValueChanged="MaxY_Completed" Increment="1" Minimum="-1000000" Maximum="1000000"/>
+
+            <Label Text="X Step:" Grid.Column="0" Grid.Row="4"/>
+            <Label Text="5" x:Name="StepLabel" Grid.Column="1" Grid.Row="4" VerticalTextAlignment="Center"/>
+            <Stepper x:Name="XStep" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4" Increment=".01" Minimum=".01" ValueChanged="XStep_ValueChanged"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

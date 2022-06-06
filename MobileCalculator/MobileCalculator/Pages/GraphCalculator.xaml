@@ -5,7 +5,6 @@
              xmlns:chartViews="clr-namespace:OxyPlot.Xamarin.Forms;assembly=OxyPlot.Xamarin.Forms">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="This page is under construction. Please be careful!" HorizontalTextAlignment="Center" FontSize="Caption" TextColor="Red"/>
             <StackLayout x:Name="ViewStack" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="7">
                 <chartViews:PlotView x:Name="Graph" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
                 <Grid VerticalOptions="Start" HorizontalOptions="FillAndExpand">
