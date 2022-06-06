@@ -39,5 +39,5 @@ namespace MobileCalculator
             InfoLabel.Text += " [DEBUG]";
 #endif
         }
-    }testc of change
+    }
 }
